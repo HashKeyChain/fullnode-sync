@@ -124,3 +124,6 @@ should return something like:
 ```sh
 docker compose down
 ```
+
+### Reference
+- https://docs.optimism.io/builders/node-operators/tutorials/node-from-docker
