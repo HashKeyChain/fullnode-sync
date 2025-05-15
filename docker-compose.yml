@@ -1,0 +1,50 @@
+volumes:
+  geth:
+  node:
+
+services:
+  geth:
+    image: ${GETH_IMAGE}
+    ports:
+      # geth http rpc
+      - "8545:8545"
+      # geth ws rpc
+      - "8546:8546"
+      # geth eignine authrpc
+      - "8551:8551"
+      # geth metrics
+      - "6060:6060"
+      # geth p2p port
+      - "30303:30303"
+    env_file:
+      - .env
+    volumes:
+      - "geth:/data"
+      - "./jwt.txt:/jwt.txt"
+      - "./entrypoints/op-geth.sh:/entrypoints/op-geth.sh"
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        exec /entrypoints/op-geth.sh
+  
+  node:
+    depends_on:
+      - geth
+    image: ${NODE_IMAGE}
+    ports:
+      # node rpc
+      - "9545:9545"
+      # node p2p 
+      - "9003:9003"
+      # node metrics
+      - "7300:7300"
+    env_file:
+      - .env
+    volumes:
+      - "node:/data"
+      - "./jwt.txt:/jwt.txt"
+      - "./entrypoints/op-node.sh:/entrypoints/op-node.sh"
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        exec /entrypoints/op-node.sh
