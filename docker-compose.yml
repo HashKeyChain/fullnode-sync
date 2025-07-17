@@ -22,11 +22,11 @@ services:
       - "geth:/data"
       - "./jwt.txt:/jwt.txt"
       - "./entrypoints/op-geth.sh:/entrypoints/op-geth.sh"
-    entrypoint: [ "/bin/sh", "-c" ]
+    entrypoint: ["/bin/sh", "-c"]
     command:
       - |
         exec /entrypoints/op-geth.sh
-  
+
   node:
     depends_on:
       - geth
@@ -34,7 +34,7 @@ services:
     ports:
       # node rpc
       - "9545:9545"
-      # node p2p 
+      # node p2p
       - "9003:9003"
       # node metrics
       - "7300:7300"
@@ -44,7 +44,10 @@ services:
       - "node:/data"
       - "./jwt.txt:/jwt.txt"
       - "./entrypoints/op-node.sh:/entrypoints/op-node.sh"
-    entrypoint: [ "/bin/sh", "-c" ]
+    entrypoint: ["/bin/sh", "-c"]
+    links:
+      - "geth:geth"
     command:
       - |
         exec /entrypoints/op-node.sh
+
