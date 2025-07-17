@@ -20,7 +20,7 @@ services:
       - .env
     volumes:
       - "geth:/data"
-      - "./jwt.txt:/jwt.txt"
+      - "./jwt:/jwt"
       - "./entrypoints/op-geth.sh:/entrypoints/op-geth.sh"
     entrypoint: ["/bin/sh", "-c"]
     command:
@@ -42,7 +42,7 @@ services:
       - .env
     volumes:
       - "node:/data"
-      - "./jwt.txt:/jwt.txt"
+      - "./jwt:/jwt"
       - "./entrypoints/op-node.sh:/entrypoints/op-node.sh"
     entrypoint: ["/bin/sh", "-c"]
     links:
@@ -50,4 +50,3 @@ services:
     command:
       - |
         exec /entrypoints/op-node.sh
-

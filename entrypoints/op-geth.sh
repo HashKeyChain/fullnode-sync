@@ -2,17 +2,17 @@
 set -e
 # set default value for http_api and ws_api if not exist
 if [ -z ${HTTP_API+x} ]; then
-    export HTTP_API="web3,eth,txpool,net,engine,debug,miner"
+  export HTTP_API="web3,eth,txpool,net,engine,debug,miner"
 fi
 
 if [ -z ${WS_API+x} ]; then
-    export WS_API="web3,eth,txpool,net,engine,debug,miner"
+  export WS_API="web3,eth,txpool,net,engine,debug,miner"
 fi
 
 # In newer version, we need to specify the static nodes in the config file
 # with "StaticNodes" instead of using the "--bootnodes" flag.
 # ref: https://github.com/ethereum/go-ethereum/issues/31208
-cat > /data/config.toml <<EOF
+cat >/data/config.toml <<EOF
 [Node.P2P]
     StaticNodes = ${GETH_STATICNODES}
 EOF
@@ -21,17 +21,17 @@ cat /data/config.toml
 
 # do geth init if datadir is empty
 if [ ! -d "/data/geth" ]; then
-    echo "Initializing geth datadir"
-    wget -O /data/genesis.json $GENESIS_URL
-    geth init --state.scheme=hash --datadir=/data /data/genesis.json
+  echo "Initializing geth datadir"
+  wget -O /data/genesis.json $GENESIS_URL
+  geth init --state.scheme=hash --datadir=/data /data/genesis.json
 else
-    echo "geth datadir already initialized, skipping..."
+  echo "geth datadir already initialized, skipping..."
 fi
 
 if [ ! -f "/data/genesis.json" ]; then
-    echo "Downloading genesis.json"
-    wget -O /data/genesis.json $GENESIS_URL
-    geth init --state.scheme=hash --datadir=/data /data/genesis.json
+  echo "Downloading genesis.json"
+  wget -O /data/genesis.json $GENESIS_URL
+  geth init --state.scheme=hash --datadir=/data /data/genesis.json
 fi
 
 exec geth \
@@ -51,10 +51,11 @@ exec geth \
   --authrpc.addr=0.0.0.0 \
   --authrpc.port=8551 \
   --authrpc.vhosts="*" \
-  --authrpc.jwtsecret=/jwt.txt \
+  --authrpc.jwtsecret=/jwt/jwt.txt \
   --metrics \
   --metrics.port=6060 \
   --metrics.addr="0.0.0.0" \
   --syncmode=$GETH_SYNC_MODE \
   --gcmode=$GC_MODE \
   --config=/data/config.toml
+
