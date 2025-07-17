@@ -3,6 +3,7 @@
 A simple docker compose script for launching full node for Hashkey Chain.
 
 ## Recommended Hardware
+
 - 4 Core
 - 16 GB+ RAM
 - 1TB SSD (NVME Recommended)
@@ -13,7 +14,7 @@ A simple docker compose script for launching full node for Hashkey Chain.
 ### Generate JWT file
 
 ```shell
-openssl rand -hex 32 > jwt.txt
+openssl rand -hex 32 > ./jwt/jwt.txt
 ```
 
 ### Copy .env.example to .env and update the value
@@ -96,7 +97,6 @@ or the syncing has completed:
 {"jsonrpc":"2.0","id":2,"result":false}
 ```
 
-
 #### check after syncing
 
 ```sh
@@ -109,7 +109,7 @@ curl --location 'localhost:8545' \
 }'
 ```
 
-should return something like: 
+should return something like:
 
 ```sh
 {
@@ -126,4 +126,5 @@ docker compose down
 ```
 
 ### Reference
-- https://docs.optimism.io/builders/node-operators/tutorials/node-from-docker
+
+- <https://docs.optimism.io/builders/node-operators/tutorials/node-from-docker>
